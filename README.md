@@ -9,3 +9,4 @@ Remember to modify license and add .gitignore
 - Empty beds, their rooms (button press to increase amount of patients in room)
 - Check whether the hospital can accept emergency patients (staff available, there is a room)
 - Set people for operations (menu featuring, doctors, nurses, sorting A-Z, non available at the bottom)
+- Seperate some parts of the program from main 
