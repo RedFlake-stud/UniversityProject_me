@@ -1,0 +1,8 @@
+Hospital Name: CountyHospital
+
+Doctors:
+
+Nurses:
+
+Rooms:
+ - Room Number: 101, Capacity: 4, Patients: 2, Occupied: False
