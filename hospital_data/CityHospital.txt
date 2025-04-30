@@ -1,0 +1,8 @@
+Hospital Name: CityHospital
+
+Doctors:
+ - Name: Alice Jones, Age: 45, Gender: Female, Specialization: Cardiology, Status: Available
+
+Nurses:
+
+Rooms:
