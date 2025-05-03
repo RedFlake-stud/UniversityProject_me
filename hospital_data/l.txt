@@ -1,0 +1,5 @@
+l
+[Doctors]
+[Nurses]
+aa,18,aa,Available
+[Rooms]

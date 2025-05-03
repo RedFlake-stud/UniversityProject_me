@@ -1,0 +1,8 @@
+Druskininku
+[Doctors]
+ADADA,38,fe,Bomboclat,Available
+baba,35,male,yaga,Available
+[Nurses]
+BABABA,28,fe,Available
+[Rooms]
+112,4,2

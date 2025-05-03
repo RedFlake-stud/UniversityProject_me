@@ -1,0 +1,9 @@
+llll
+[Doctors]
+John Smith,35,Male,Cardiology,Available
+Charles Manson,49,Male,General Surgery,Available
+[Nurses]
+James Morgan,27,Male,Available
+Susan Madison,37,Female,Available
+[Rooms]
+312,4,2
