@@ -1,0 +1,7 @@
+Test3
+[Doctors]
+Maria Cage,32,female,General Surgeon,Unavailable
+[Nurses]
+Carl Lopez,36,male,Available
+[Rooms]
+301,4,3
