@@ -1,4 +1,5 @@
 from hospital_manager import HospitalManager
+
 from app import App
 
 manager = HospitalManager()

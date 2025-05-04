@@ -1,6 +1,7 @@
 import os
 from models.factory import Factory
 
+
 class HospitalManager:
     def __init__(self, data_dir="hospital_data"):
         self._hospitals = {}
@@ -28,38 +29,44 @@ class HospitalManager:
                 name = file[:-4]
                 hospital = Hospital(name)
                 hospital._filename = os.path.join(self._data_dir, file)
-                hospital.load_from_file()  
+                hospital.load_from_file()
                 self._hospitals[name] = hospital
 
+    def delete_hospital(self, hospital):
+        if hospital._name in self._hospitals:
+            del self._hospitals[hospital._name]
+            os.remove(hospital._filename)
+
+
 class Hospital:
-    def __init__(self, name):
+    def __init__(self, name, filename=None):
         self._name = name
         self._doctors = []
         self._nurses = []
         self._rooms = []
+        self._filename = filename
 
     def add_doctor(self, doctor):
-        for doctors in self._doctors:
-            if doctors._name == doctor._name:
-                print(f"Doctor already exists. Updating data instead...")
-                self.remove_doctor(doctors)
+        for existing_doctor in self._doctors:
+            if existing_doctor._name == doctor._name:
+                print("Doctor already exists. Updating data instead...")
+                self.remove_doctor(existing_doctor)
         self._doctors.append(doctor)
         self.save_to_file()
 
     def add_nurse(self, nurse):
-        for nurses in self._nurses:
-            if nurses._name == nurse._name:
-                print(f"Nurse already exists. Updating data instead...")
-                self.remove_nurse(nurses)
+        for existing_nurse in self._nurses:
+            if existing_nurse._name == nurse._name:
+                print("Nurse already exists. Updating data instead...")
+                self.remove_nurse(existing_nurse)
         self._nurses.append(nurse)
         self.save_to_file()
 
     def add_room(self, room):
-        for rooms in self._rooms:
-            if rooms._name == room._room_number:
-                print(f"Room already exists. Updating data instead...")
-                self.remove_nurse(rooms)
-        
+        for existing_room in self._rooms:
+            if existing_room._room_number == room._room_number:
+                print("Room already exists. Updating data instead...")
+                self.remove_room(existing_room)
         self._rooms.append(room)
         self.save_to_file()
 
@@ -70,28 +77,30 @@ class Hospital:
 
         return (
             len(available_doctors) >= 1
-            and len(available_nurses) >= 2
+            and len(available_nurses) >= 1
             and len(rooms_with_space) >= 1
         )
 
     def save_to_file(self):
-        with open(self._filename, 'w') as f:
+        with open(self._filename, "w") as f:
             f.write(f"{self._name}\n")
             f.write("[Doctors]\n")
             for d in self._doctors:
-                f.write(f"{d._name},{d._age},{d._gender},{d._specialization},{d._status}\n")
+                f.write(
+                    f"{d._name},{d._age},{d._gender},{d._specialization},{d._status}\n"
+                )
             f.write("[Nurses]\n")
             for n in self._nurses:
                 f.write(f"{n._name},{n._age},{n._gender},{n._status}\n")
             f.write("[Rooms]\n")
             for r in self._rooms:
                 f.write(f"{r._room_number},{r._capacity},{r._patient_amount}\n")
-    
+
     def load_from_file(self):
         if not os.path.exists(self._filename):
             return
 
-        with open(self._filename, 'r') as f:
+        with open(self._filename, "r") as f:
             section = None
             for line in f:
                 line = line.strip()
@@ -105,7 +114,9 @@ class Hospital:
                     section = "rooms"
                 elif section == "doctors":
                     name, age, gender, spec, status = line.split(",")
-                    doctor = Factory.create_doctor(name, int(age), gender, spec, status)
+                    doctor = Factory.create_doctor(
+                        name, int(age), gender, spec, status
+                    )
                     self._doctors.append(doctor)
                 elif section == "nurses":
                     name, age, gender, status = line.split(",")
@@ -116,18 +127,15 @@ class Hospital:
                     room = Factory.create_room(room_num, int(capacity), int(patients))
                     self._rooms.append(room)
 
-    def remove_doctor(self, doctor):
-        self._doctors.remove(doctor)
-        self.save_to_file()
-
-    def remove_nurse(self, nurse):
-        self._nurses.remove(nurse)
-        self.save_to_file()
-
-    def remove_room(self, room):
-        self._rooms.remove(room)
-        self.save_to_file()
+    def remove_item(self, item):
+        if item in self._doctors:
+            self._doctors.remove(item)
+        elif item in self._nurses:
+            self._nurses.remove(item)
+        elif item in self._rooms:
+            self._rooms.remove(item)
+        else:
+            raise ValueError("Item not found in hospital.")
 
     def get_items(self):
         return self._doctors + self._nurses + self._rooms
-    

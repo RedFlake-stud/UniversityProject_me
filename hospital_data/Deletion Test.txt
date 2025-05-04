@@ -1,0 +1,5 @@
+Deletion Test
+[Doctors]
+Aaron Bay,29,male,Family Physician,Available
+[Nurses]
+[Rooms]

@@ -2,6 +2,9 @@ import tkinter as tk
 from models.factory import Factory
 from ui_elements.base_page import BasePage
 
+ELEMENTS = ["Doctor", "Nurse", "Room"]
+
+
 class AddHospitalItemPage(BasePage):
     def __init__(self, parent, controller, manager):
         super().__init__(parent, controller)
@@ -9,16 +12,17 @@ class AddHospitalItemPage(BasePage):
         self.manager = manager
         self.hospital = None
 
-        self.title_label = tk.Label(self, text="", font=('Arial', 24))
+        self.title_label = tk.Label(self, text="", font=("Arial", 24))
         self.title_label.pack(pady=20)
 
-        self.elements = ["Doctor", "Nurse", "Room"]
+        self.elements = ELEMENTS
         self.selection_var = tk.IntVar(value=0)
         self.selection_var.trace_add("write", self.load_selection)
 
-
         for index, element in enumerate(self.elements):
-            radio = tk.Radiobutton(self, text=element, variable=self.selection_var, value=index)
+            radio = tk.Radiobutton(
+                self, text=element, variable=self.selection_var, value=index
+            )
             radio.pack()
 
         self.textframe = tk.Frame(self)
@@ -27,8 +31,8 @@ class AddHospitalItemPage(BasePage):
         save_btn = tk.Button(self, text="Save Entry", command=self.save_entry)
         save_btn.pack(pady=10)
 
-        backbtn = tk.Button(self, text="Back", command=self.go_back)
-        backbtn.pack(pady=10)
+        back_btn = tk.Button(self, text="Back", command=self.go_back)
+        back_btn.pack(pady=10)
 
     def go_back(self):
         from ui_elements.select_option_page import SelectOptionPage
@@ -39,10 +43,9 @@ class AddHospitalItemPage(BasePage):
             widget.destroy()
 
         self.entries = {}
-
         selection = self.selection_var.get()
 
-        if selection == 0:
+        if selection == 0:  # Doctor
             fields = ["Name", "Age", "Specialization", "Gender"]
             for col, label in enumerate(fields):
                 tk.Label(self.textframe, text=label).grid(row=0, column=col, sticky="ew")
@@ -50,15 +53,24 @@ class AddHospitalItemPage(BasePage):
                 entry.grid(row=1, column=col, sticky="ew")
                 self.entries[label.lower()] = entry
 
-            tk.Label(self.textframe, text="Availability").grid(row=0, column=len(fields), sticky="ew")
+            tk.Label(self.textframe, text="Availability").grid(
+                row=0, column=len(fields), sticky="ew"
+            )
             self.avail_var = tk.StringVar(value="Available")
             avail_frame = tk.Frame(self.textframe)
             avail_frame.grid(row=1, column=len(fields), sticky="ew")
 
-            tk.Radiobutton(avail_frame, text="Available", variable=self.avail_var, value="Available").pack(side="left")
-            tk.Radiobutton(avail_frame, text="Unavailable", variable=self.avail_var, value="Unavailable").pack(side="left")
+            tk.Radiobutton(
+                avail_frame, text="Available", variable=self.avail_var, value="Available"
+            ).pack(side="left")
+            tk.Radiobutton(
+                avail_frame,
+                text="Unavailable",
+                variable=self.avail_var,
+                value="Unavailable",
+            ).pack(side="left")
 
-        elif selection == 1:
+        elif selection == 1:  # Nurse
             fields = ["Name", "Age", "Gender"]
             for col, label in enumerate(fields):
                 tk.Label(self.textframe, text=label).grid(row=0, column=col, sticky="ew")
@@ -66,7 +78,7 @@ class AddHospitalItemPage(BasePage):
                 entry.grid(row=1, column=col, sticky="ew")
                 self.entries[label.lower()] = entry
 
-        else:  
+        else:  # Room
             fields = ["Room Number", "Capacity", "Patient Count"]
             for col, label in enumerate(fields):
                 tk.Label(self.textframe, text=label).grid(row=0, column=col, sticky="ew")
@@ -88,7 +100,7 @@ class AddHospitalItemPage(BasePage):
 
         selection = self.selection_var.get()
 
-        if selection == 0:
+        if selection == 0:  # Doctor
             try:
                 name = self.entries["name"].get()
                 age = int(self.entries["age"].get())
@@ -101,7 +113,7 @@ class AddHospitalItemPage(BasePage):
             except Exception as e:
                 print("Error adding doctor:", e)
 
-        elif selection == 1:
+        elif selection == 1:  # Nurse
             try:
                 name = self.entries["name"].get()
                 age = int(self.entries["age"].get())
@@ -112,7 +124,7 @@ class AddHospitalItemPage(BasePage):
             except Exception as e:
                 print("Error adding nurse:", e)
 
-        else:
+        else:  # Room
             try:
                 room_number = self.entries["room number"].get()
                 capacity = int(self.entries["capacity"].get())

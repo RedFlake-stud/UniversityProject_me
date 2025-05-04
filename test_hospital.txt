@@ -1,0 +1,8 @@
+Test Hospital
+[Doctors]
+John Doe,40,Male,Cardiology,Available
+[Nurses]
+Jane Smith,30,Female,Available
+Alice Brown,35,Female,Available
+[Rooms]
+101,2,1

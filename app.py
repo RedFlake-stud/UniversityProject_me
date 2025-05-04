@@ -23,16 +23,25 @@ class App(tk.Tk):
         self.container.rowconfigure(0, weight=1)
         self.container.columnconfigure(0, weight=1)
 
-
         self.frames = {}
 
-        for F in (StartPage, EmergencyPage, ConfigPage, AvailableHospitals, AddHospitalItemPage, 
-                  CreateHospitalPage, SelectOptionPage, RemoveHospitalItemPage):
-            frame = F(self.container, self, self.manager)
-            self.frames[F] = frame
+        pages = (
+            StartPage,
+            EmergencyPage,
+            ConfigPage,
+            AvailableHospitals,
+            AddHospitalItemPage,
+            CreateHospitalPage,
+            SelectOptionPage,
+            RemoveHospitalItemPage,
+        )
+
+        for page_class in pages:
+            frame = page_class(self.container, self, self.manager)
+            self.frames[page_class] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(StartPage)  
+        self.show_frame(StartPage)
 
     def show_frame(self, page_class):
         frame = self.frames[page_class]

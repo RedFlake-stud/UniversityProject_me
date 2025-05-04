@@ -1,6 +1,7 @@
 from models.staff import Doctor, Nurse
 from models.room import Room
 
+
 class Factory:
     @staticmethod
     def create_doctor(name, age, gender, specialization, status="Available"):
